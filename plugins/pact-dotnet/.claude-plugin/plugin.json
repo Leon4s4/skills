@@ -1,0 +1,8 @@
+{
+  "name": "pact-dotnet",
+  "version": "1.0.0",
+  "description": "Build consumer and provider contract tests using PactNet 5.x for GraphQL APIs.",
+  "author": {
+    "name": "Leon4s4"
+  }
+}

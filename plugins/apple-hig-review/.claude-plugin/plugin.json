@@ -1,0 +1,8 @@
+{
+  "name": "apple-hig-review",
+  "version": "1.0.0",
+  "description": "Review SwiftUI code and design specs against Apple Human Interface Guidelines (HIG).",
+  "author": {
+    "name": "Leon4s4"
+  }
+}

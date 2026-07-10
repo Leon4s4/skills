@@ -1,0 +1,8 @@
+{
+  "name": "cf-cli-mastery",
+  "version": "1.0.0",
+  "description": "Master-level Cloud Foundry CF CLI skill for deploying, managing, troubleshooting, and operating applications on Cloud Foundry platforms.",
+  "author": {
+    "name": "Leon4s4"
+  }
+}

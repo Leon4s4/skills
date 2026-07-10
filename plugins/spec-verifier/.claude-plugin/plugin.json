@@ -1,0 +1,8 @@
+{
+  "name": "spec-verifier",
+  "version": "1.0.0",
+  "description": "Pre-development specification validator and completeness checker for greenfield projects.",
+  "author": {
+    "name": "Leon4s4"
+  }
+}

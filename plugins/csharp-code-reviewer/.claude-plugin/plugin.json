@@ -1,0 +1,8 @@
+{
+  "name": "csharp-code-reviewer",
+  "version": "1.0.0",
+  "description": "Review C# code changes in git repositories with deep expertise in Microsoft Dynamics 365 CRM, GraphQL with Hot Chocolate, and .NET best practices.",
+  "author": {
+    "name": "Leon4s4"
+  }
+}

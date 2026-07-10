@@ -1,0 +1,8 @@
+{
+  "name": "dynatrace-dashboards",
+  "version": "1.0.0",
+  "description": "Create, modify, analyze, and deploy Dynatrace platform (Gen3 / Grail) dashboards via the dtctl CLI.",
+  "author": {
+    "name": "Leon4s4"
+  }
+}

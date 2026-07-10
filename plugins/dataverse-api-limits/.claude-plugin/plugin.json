@@ -1,0 +1,8 @@
+{
+  "name": "dataverse-api-limits",
+  "version": "1.0.0",
+  "description": "Handle Microsoft Dataverse / Power Apps service protection API limits and throttling, and connect to Dataverse from .NET.",
+  "author": {
+    "name": "Leon4s4"
+  }
+}

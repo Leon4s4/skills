@@ -1,0 +1,26 @@
+name: validate
+
+on: [push, pull_request]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate JSON manifests
+        run: |
+          python3 - <<'EOF'
+          import json, glob
+          files = ['.claude-plugin/marketplace.json'] + sorted(glob.glob('plugins/*/.claude-plugin/plugin.json'))
+          for f in files:
+              json.load(open(f))
+              print('OK', f)
+          EOF
+
+      - name: Validate dashboard templates
+        run: |
+          skill=plugins/dynatrace-dashboards/skills/dynatrace-dashboards
+          for t in "$skill"/assets/templates/*.json; do
+            python3 "$skill/scripts/validate_dashboard.py" "$t"
+          done

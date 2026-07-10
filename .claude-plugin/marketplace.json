@@ -1,0 +1,61 @@
+{
+  "name": "leon4s4-skills",
+  "owner": {
+    "name": "Leon4s4"
+  },
+  "metadata": {
+    "description": "Leonardo's Claude Code skills: Dynatrace, Dataverse, .NET, iOS/SwiftUI, Cloud Foundry, Pact, and spec review."
+  },
+  "plugins": [
+    {
+      "name": "apple-hig-review",
+      "source": "./plugins/apple-hig-review",
+      "description": "Review SwiftUI code and design specs against Apple Human Interface Guidelines (HIG)."
+    },
+    {
+      "name": "cf-cli-mastery",
+      "source": "./plugins/cf-cli-mastery",
+      "description": "Master-level Cloud Foundry CF CLI skill for deploying, managing, troubleshooting, and operating applications on Cloud Foundry platforms."
+    },
+    {
+      "name": "csharp-code-reviewer",
+      "source": "./plugins/csharp-code-reviewer",
+      "description": "Review C# code changes in git repositories with deep expertise in Microsoft Dynamics 365 CRM, GraphQL with Hot Chocolate, and .NET best practices."
+    },
+    {
+      "name": "dataverse-api-limits",
+      "source": "./plugins/dataverse-api-limits",
+      "description": "Handle Microsoft Dataverse / Power Apps service protection API limits and throttling, and connect to Dataverse from .NET."
+    },
+    {
+      "name": "dotnet-memory-checker",
+      "source": "./plugins/dotnet-memory-checker",
+      "description": "Scan C# .NET 8+ projects for memory leaks, GC issues, and high memory usage."
+    },
+    {
+      "name": "dynatrace",
+      "source": "./plugins/dynatrace",
+      "description": "Query, ingest, and automate Dynatrace observability data."
+    },
+    {
+      "name": "dynatrace-dashboards",
+      "source": "./plugins/dynatrace-dashboards",
+      "description": "Create, modify, analyze, and deploy Dynatrace platform (Gen3 / Grail) dashboards via the dtctl CLI."
+    },
+    {
+      "name": "ios-ux-craft",
+      "source": "./plugins/ios-ux-craft",
+      "description": "Build Apple-quality iOS UX/UI with SwiftUI (iOS 17+)."
+    },
+    {
+      "name": "pact-dotnet",
+      "source": "./plugins/pact-dotnet",
+      "description": "Build consumer and provider contract tests using PactNet 5.x for GraphQL APIs."
+    },
+    {
+      "name": "spec-verifier",
+      "source": "./plugins/spec-verifier",
+      "description": "Pre-development specification validator and completeness checker for greenfield projects."
+    }
+  ]
+}

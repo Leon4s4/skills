@@ -1,0 +1,8 @@
+{
+  "name": "dotnet-memory-checker",
+  "version": "1.0.0",
+  "description": "Scan C# .NET 8+ projects for memory leaks, GC issues, and high memory usage.",
+  "author": {
+    "name": "Leon4s4"
+  }
+}

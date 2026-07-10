@@ -1,0 +1,8 @@
+{
+  "name": "dynatrace",
+  "version": "1.0.0",
+  "description": "Query, ingest, and automate Dynatrace observability data.",
+  "author": {
+    "name": "Leon4s4"
+  }
+}
