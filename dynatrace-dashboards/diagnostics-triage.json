@@ -1,0 +1,163 @@
+{
+  "name": "Diagnostics Triage",
+  "type": "dashboard",
+  "content": {
+    "version": 21,
+    "variables": [],
+    "tiles": {
+      "header": {
+        "type": "markdown",
+        "content": "# Diagnostics Triage\n\n**Is anything wrong → where → since when → jump to root cause.** Open the [Problems app](/ui/apps/dynatrace.classic.problems) for guided Davis root-cause analysis. Every query below is a starting point — validate with `dtctl query` and reconcile `visualizationSettings` via `dtctl apply` before relying on it."
+      },
+      "kpi-open-problems": {
+        "type": "data",
+        "title": "Open problems",
+        "query": "fetch dt.davis.problems | filter event.status == \"ACTIVE\" | summarize count = count()",
+        "visualization": "singleValue",
+        "visualizationSettings": {
+          "singleValue": { "colorThresholdTarget": "value", "recordField": "count", "label": "Open problems", "isIconVisible": false },
+          "thresholds": [
+            { "id": 1, "field": "count", "title": "", "isEnabled": true, "rules": [
+              { "id": 0, "color": { "Default": "var(--dt-colors-charts-status-ideal-default, #2f6862)" }, "comparator": "≥", "label": "OK", "value": 0 },
+              { "id": 1, "color": { "Default": "var(--dt-colors-charts-status-warning-default, #eea53c)" }, "comparator": "≥", "label": "WARN", "value": 1 },
+              { "id": 2, "color": { "Default": "var(--dt-colors-charts-status-critical-default, #c62239)" }, "comparator": "≥", "label": "CRITICAL", "value": 3 }
+            ] }
+          ]
+        },
+        "querySettings": {}
+      },
+      "kpi-rootcause": {
+        "type": "data",
+        "title": "Root-cause problems",
+        "query": "fetch dt.davis.problems | filter event.status == \"ACTIVE\" and dt.davis.is_root_cause == true | summarize count = count()",
+        "visualization": "singleValue",
+        "visualizationSettings": {
+          "singleValue": { "colorThresholdTarget": "value", "recordField": "count", "label": "Root-cause", "isIconVisible": false },
+          "thresholds": [
+            { "id": 1, "field": "count", "title": "", "isEnabled": true, "rules": [
+              { "id": 0, "color": { "Default": "var(--dt-colors-charts-status-ideal-default, #2f6862)" }, "comparator": "≥", "label": "OK", "value": 0 },
+              { "id": 1, "color": { "Default": "var(--dt-colors-charts-status-warning-default, #eea53c)" }, "comparator": "≥", "label": "WARN", "value": 1 },
+              { "id": 2, "color": { "Default": "var(--dt-colors-charts-status-critical-default, #c62239)" }, "comparator": "≥", "label": "CRITICAL", "value": 2 }
+            ] }
+          ]
+        },
+        "querySettings": {}
+      },
+      "kpi-error-rate": {
+        "type": "data",
+        "title": "Error rate (%)",
+        "query": "timeseries { failures = sum(dt.service.request.failure_count), total = sum(dt.service.request.count) } | fieldsAdd error_rate = (arraySum(failures) / arraySum(total)) * 100 | fields error_rate",
+        "visualization": "singleValue",
+        "visualizationSettings": {
+          "singleValue": { "colorThresholdTarget": "value", "recordField": "error_rate", "label": "Error rate %", "isIconVisible": false },
+          "thresholds": [
+            { "id": 1, "field": "error_rate", "title": "", "isEnabled": true, "rules": [
+              { "id": 0, "color": { "Default": "var(--dt-colors-charts-status-ideal-default, #2f6862)" }, "comparator": "≥", "label": "OK", "value": 0 },
+              { "id": 1, "color": { "Default": "var(--dt-colors-charts-status-warning-default, #eea53c)" }, "comparator": "≥", "label": "WARN", "value": 1 },
+              { "id": 2, "color": { "Default": "var(--dt-colors-charts-status-critical-default, #c62239)" }, "comparator": "≥", "label": "CRITICAL", "value": 5 }
+            ] }
+          ]
+        },
+        "querySettings": {}
+      },
+      "kpi-latency-p99": {
+        "type": "data",
+        "title": "Latency p99 (µs)",
+        "query": "timeseries p99 = percentile(dt.service.request.response_time, 99) | fieldsAdd p99_us = arrayAvg(p99) | fields p99_us",
+        "visualization": "singleValue",
+        "visualizationSettings": {
+          "singleValue": { "colorThresholdTarget": "value", "recordField": "p99_us", "label": "Latency p99", "isIconVisible": false },
+          "thresholds": [
+            { "id": 1, "field": "p99_us", "title": "", "isEnabled": true, "rules": [
+              { "id": 0, "color": { "Default": "var(--dt-colors-charts-status-ideal-default, #2f6862)" }, "comparator": "≥", "label": "OK", "value": 0 },
+              { "id": 1, "color": { "Default": "var(--dt-colors-charts-status-warning-default, #eea53c)" }, "comparator": "≥", "label": "WARN", "value": 4000000 },
+              { "id": 2, "color": { "Default": "var(--dt-colors-charts-status-critical-default, #c62239)" }, "comparator": "≥", "label": "CRITICAL", "value": 8000000 }
+            ] }
+          ],
+          "unitsOverrides": [
+            { "identifier": "p99_us", "unitCategory": "time", "baseUnit": "microsecond", "displayUnit": null, "decimals": null, "suffix": "", "delimiter": false }
+          ]
+        },
+        "querySettings": {}
+      },
+      "kpi-worst-cpu": {
+        "type": "data",
+        "title": "Worst host CPU (%)",
+        "query": "timeseries cpu = avg(dt.host.cpu.usage), by:{dt.entity.host} | fieldsAdd peak = arrayMax(cpu) | summarize worst = max(peak)",
+        "visualization": "singleValue",
+        "visualizationSettings": {
+          "singleValue": { "colorThresholdTarget": "value", "recordField": "worst", "label": "Worst host CPU", "isIconVisible": false },
+          "thresholds": [
+            { "id": 1, "field": "worst", "title": "", "isEnabled": true, "rules": [
+              { "id": 0, "color": { "Default": "var(--dt-colors-charts-status-ideal-default, #2f6862)" }, "comparator": "≥", "label": "OK", "value": 0 },
+              { "id": 1, "color": { "Default": "var(--dt-colors-charts-status-warning-default, #eea53c)" }, "comparator": "≥", "label": "WARN", "value": 70 },
+              { "id": 2, "color": { "Default": "var(--dt-colors-charts-status-critical-default, #c62239)" }, "comparator": "≥", "label": "CRITICAL", "value": 90 }
+            ] }
+          ]
+        },
+        "querySettings": {}
+      },
+      "svc-health": {
+        "type": "data",
+        "title": "Service health (failures)",
+        "query": "timeseries err = sum(dt.service.request.failure_count), by:{dt.smartscape.service} | fieldsAdd errors = arraySum(err) | fields dt.smartscape.service, errors",
+        "visualization": "honeycomb",
+        "visualizationSettings": {
+          "shape": "hexagon",
+          "dataMapping": { "dimension": "dt.smartscape.service", "displayedFields": ["errors"] },
+          "labels": { "showLabels": true }
+        },
+        "querySettings": {}
+      },
+      "host-health": {
+        "type": "data",
+        "title": "Host health (peak CPU)",
+        "query": "timeseries cpu = avg(dt.host.cpu.usage), by:{dt.entity.host} | fieldsAdd peak = arrayMax(cpu) | fields dt.entity.host, peak",
+        "visualization": "honeycomb",
+        "visualizationSettings": {
+          "shape": "hexagon",
+          "dataMapping": { "dimension": "dt.entity.host", "displayedFields": ["peak"] },
+          "labels": { "showLabels": true }
+        },
+        "querySettings": {}
+      },
+      "errors-trend": {
+        "type": "data",
+        "title": "Errors over time",
+        "query": "timeseries failures = sum(dt.service.request.failure_count), by:{dt.smartscape.service}",
+        "visualization": "lineChart",
+        "visualizationSettings": { "chartSettings": { "gapPolicy": "connect" } },
+        "querySettings": {}
+      },
+      "latency-trend": {
+        "type": "data",
+        "title": "Latency p90 over time",
+        "query": "timeseries p90 = percentile(dt.service.request.response_time, 90), by:{dt.smartscape.service}",
+        "visualization": "lineChart",
+        "visualizationSettings": { "chartSettings": { "gapPolicy": "connect" } },
+        "querySettings": {}
+      },
+      "open-problems-table": {
+        "type": "data",
+        "title": "Open problems",
+        "query": "fetch dt.davis.problems | filter event.status == \"ACTIVE\" | sort timestamp desc | fields display_id, event.name, event.category, affected_entity_ids, timestamp",
+        "visualization": "table",
+        "visualizationSettings": { "table": { "rowDensity": "condensed" } },
+        "querySettings": {}
+      }
+    },
+    "layouts": {
+      "header":              { "x": 0,  "y": 0,  "w": 24, "h": 1 },
+      "kpi-open-problems":   { "x": 0,  "y": 1,  "w": 5,  "h": 3 },
+      "kpi-rootcause":       { "x": 5,  "y": 1,  "w": 5,  "h": 3 },
+      "kpi-error-rate":      { "x": 10, "y": 1,  "w": 5,  "h": 3 },
+      "kpi-latency-p99":     { "x": 15, "y": 1,  "w": 5,  "h": 3 },
+      "kpi-worst-cpu":       { "x": 20, "y": 1,  "w": 4,  "h": 3 },
+      "svc-health":          { "x": 0,  "y": 4,  "w": 12, "h": 8 },
+      "host-health":         { "x": 12, "y": 4,  "w": 12, "h": 8 },
+      "errors-trend":        { "x": 0,  "y": 12, "w": 12, "h": 6 },
+      "latency-trend":       { "x": 12, "y": 12, "w": 12, "h": 6 },
+      "open-problems-table": { "x": 0,  "y": 18, "w": 24, "h": 6 }
+    }
+  }
+}
